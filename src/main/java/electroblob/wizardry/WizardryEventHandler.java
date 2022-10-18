@@ -798,20 +798,31 @@ public class WizardryEventHandler {
 
 	}
 
+	public boolean hasValidWand(final EntityPlayer player) {
+		for (int i = 0; i < 9; ++i) {
+			final ItemStack stack = player.inventory.mainInventory[i];
+			if (stack != null && stack.getItem() instanceof ItemWand) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@SubscribeEvent
 	public void onLivingDropsEvent(LivingDropsEvent event){
 		// Evil wizards drop spell books themselves
 		if(event.entityLiving instanceof EntityMob && !(event.entityLiving instanceof EntityEvilWizard) && event.source.getEntity() instanceof EntityPlayer && !(event.source.getEntity() instanceof FakePlayer) && Wizardry.spellBookDropChance > 0){
+			if (hasValidWand((EntityPlayer) event.source.getEntity())) {
+				// This does exactly what the entity drop method does, but with a different random number so that the
+				// spell book doesn't always drop with other rare drops.
+				int rareDropNumber = event.entity.worldObj.rand.nextInt(200) - event.lootingLevel;
+				if (rareDropNumber < Wizardry.spellBookDropChance) {
+					// Drops a spell book
+					int id = WizardryUtilities.getStandardWeightedRandomSpellId(event.entity.worldObj.rand);
 
-			// This does exactly what the entity drop method does, but with a different random number so that the
-			// spell book doesn't always drop with other rare drops.
-			int rareDropNumber = event.entity.worldObj.rand.nextInt(200) - event.lootingLevel;
-			if(rareDropNumber < Wizardry.spellBookDropChance){
-				// Drops a spell book
-				int id = WizardryUtilities.getStandardWeightedRandomSpellId(event.entity.worldObj.rand);
-
-				event.drops.add(new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ,
-						new ItemStack(Wizardry.spellBook, 1, id)));
+					event.drops.add(new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ,
+							new ItemStack(Wizardry.spellBook, 1, id)));
+				}
 			}
 		}
 
@@ -955,19 +966,19 @@ public class WizardryEventHandler {
 		}
 	}
 	
-	@SubscribeEvent
-	public void onBonemealEvent(BonemealEvent event){
-		// Grows crystal flowers when bonemeal is used on grass
-		if(event.block == Blocks.grass){
+	 @SubscribeEvent
+	 public void onBonemealEvent(BonemealEvent event){
+	 	// Grows crystal flowers when bonemeal is used on grass
+	 	if(Wizardry.bonemealMagicalFlower && event.block == Blocks.grass){
 			
-			int x = event.x + event.world.rand.nextInt(8) - event.world.rand.nextInt(8);
-			int y = event.y + event.world.rand.nextInt(4) - event.world.rand.nextInt(4);
-			int z = event.z + event.world.rand.nextInt(8) - event.world.rand.nextInt(8);
+	 		int x = event.x + event.world.rand.nextInt(8) - event.world.rand.nextInt(8);
+	 		int y = event.y + event.world.rand.nextInt(4) - event.world.rand.nextInt(4);
+	 		int z = event.z + event.world.rand.nextInt(8) - event.world.rand.nextInt(8);
 
-			if (event.world.isAirBlock(x, y, z) && (!event.world.provider.hasNoSky || y < 127) && Wizardry.crystalFlower.canBlockStay(event.world, x, y, z))
-			{
-				event.world.setBlock(x, y, z, Wizardry.crystalFlower, 0, 2);
-			}
-		}
-	}
+	 		if (event.world.isAirBlock(x, y, z) && (!event.world.provider.hasNoSky || y < 127) && Wizardry.crystalFlower.canBlockStay(event.world, x, y, z))
+	 		{
+	 			event.world.setBlock(x, y, z, Wizardry.crystalFlower, 0, 2);
+	 		}
+	 	}
+	 }
 }
