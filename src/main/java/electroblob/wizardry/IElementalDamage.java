@@ -2,7 +2,6 @@ package electroblob.wizardry;
 
 import electroblob.wizardry.MagicDamage.DamageType;
 import net.minecraft.entity.Entity;
-import scala.actors.threadpool.Arrays;
 
 /** This interface allows {@link MagicDamage} and {@link IndirectMagicDamage} to both be treated as instances of a
  * single type so that the damage type field can be accessed, rather than having to deal with each of them separately,
