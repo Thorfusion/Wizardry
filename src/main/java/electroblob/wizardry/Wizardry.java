@@ -94,7 +94,7 @@ public class Wizardry {
 
 	public static final String MODID = "wizardry";
 	public static final String NAME = "Electroblob's Wizardry";
-	public static final String VERSION = "1.1.5";
+	public static final String VERSION = "GRADLE_MODVERSION";
 
 	// Constants
 	/** The amount of mana each magic crystal is worth */
