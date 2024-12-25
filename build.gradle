@@ -17,6 +17,15 @@ plugins {
     id 'java-library'
 }
 
+
+repositories {
+    maven {
+        name 'central'
+        url 'https://maven.thorfusion.com/artifactory/central/'
+    }
+
+}
+
 apply plugin: 'forge'
 apply plugin: 'idea'
 apply plugin: "com.jfrog.artifactory"
