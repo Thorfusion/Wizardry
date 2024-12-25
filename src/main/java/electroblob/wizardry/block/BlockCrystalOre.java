@@ -12,7 +12,6 @@ public class BlockCrystalOre extends Block {
 	public BlockCrystalOre(Material material) {
 		super(material);
 		setStepSound(Block.soundTypeStone);
-		setBlockName("crystalOre");
 		setResistance(5.0F);
 		setHarvestLevel("pickaxe", 2);
 	}

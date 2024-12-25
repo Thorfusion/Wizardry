@@ -14,6 +14,7 @@ import com.google.common.collect.Ordering;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -67,6 +68,7 @@ import electroblob.wizardry.potion.PotionDecay;
 import electroblob.wizardry.potion.PotionFrost;
 import electroblob.wizardry.potion.PotionMagicEffect;
 import electroblob.wizardry.spell.Spell;
+import ganymedes01.etfuturum.api.DeepslateOreRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -268,6 +270,8 @@ public class Wizardry {
 	/** The id of the flaming weapon enchantment. */
 	private static int freezingWeaponEnchantmentID = 103;
 
+	public static boolean isEFRLoaded;
+
 	private static Comparator<ItemStack> itemSorter;
 	private static Comparator<ItemStack> spellItemSorter;
 	//private static Pattern entityNamePattern;
@@ -313,6 +317,7 @@ public class Wizardry {
 	// Blocks
 	public final static Block arcaneWorkbench = new BlockArcaneWorkbench().setHardness(1.0F).setBlockName("arcaneWorkbench").setCreativeTab(tabWizardry);
 	public final static Block crystalOre = new BlockCrystalOre(Material.rock).setHardness(3.0F).setBlockName("crystalOre").setCreativeTab(tabWizardry).setBlockTextureName("wizardry:crystal_ore");
+	public final static Block deepslatecrystalOre = new BlockCrystalOre(Material.rock).setHardness(5.0F).setBlockName("deepslatecrystalOre").setCreativeTab(tabWizardry).setBlockTextureName("wizardry:deepslate_crystal_ore");
 	public final static Block petrifiedStone = new BlockStatue(Material.rock).setHardness(1.5F).setResistance(10.0F).setBlockName("petrifiedStone").setBlockTextureName("minecraft:stone");
 	public final static Block iceStatue = new BlockStatue(Material.ice).setHardness(0.5F).setLightOpacity(3).setStepSound(Block.soundTypeGlass).setBlockName("iceStatue").setBlockTextureName("minecraft:ice");
 	public final static Block magicLight = new BlockMagicLight(Material.circuits).setBlockName("magicLight").setBlockTextureName("minecraft:beacon");
@@ -526,6 +531,8 @@ public class Wizardry {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event){
+
+		isEFRLoaded = Loader.isModLoaded("etfuturum");
 		
 		expandPotionTypesArray();
 
@@ -580,6 +587,7 @@ public class Wizardry {
 
 				Item.getItemFromBlock(arcaneWorkbench),
 				Item.getItemFromBlock(crystalOre),
+				Item.getItemFromBlock(deepslatecrystalOre),
 				Item.getItemFromBlock(crystalBlock),
 				Item.getItemFromBlock(crystalFlower),
 				Item.getItemFromBlock(transportationStone),
@@ -661,6 +669,10 @@ public class Wizardry {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event){
+
+		if(isEFRLoaded){
+			DeepslateOreRegistry.addOre(crystalOre, deepslatecrystalOre);
+		}
 		// To ensure backwards compatibility, the spell books and scrolls themselves are now sorted in the creative tab,
 		// and the spells are left in whatever order they were registered.
 		//Spell.sortSpells();

@@ -157,6 +157,7 @@ public final class WizardryRegistry {
         
         GameRegistry.registerBlock(Wizardry.arcaneWorkbench, "arcane_workbench");
         GameRegistry.registerBlock(Wizardry.crystalOre, "crystal_ore");
+		GameRegistry.registerBlock(Wizardry.deepslatecrystalOre, "deepslate_crystal_ore");
         GameRegistry.registerBlock(Wizardry.petrifiedStone, "petrified_stone");
         GameRegistry.registerBlock(Wizardry.iceStatue, "ice_statue");
         GameRegistry.registerBlock(Wizardry.magicLight, "magic_light");
