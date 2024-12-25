@@ -61,7 +61,7 @@ artifacts {
 }
 
 dependencies {
-    implementation "codechicken:NotEnoughItems:${minecraft_version}-${NEI_version}:dev"
+    implementation "codechicken:NotEnoughItems:1.7.10-1.0.4.101:dev"
 }
 
 processResources {
